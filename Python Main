@@ -1,0 +1,216 @@
+import pandas as pd
+from pandas import DataFrame
+import matplotlib.pyplot as plt
+import seaborn as sns
+import itertools as it
+import numpy as np
+from numpy import array, moveaxis, indices, dstack
+from mpl_toolkits.mplot3d import Axes3D
+from matplotlib import cm
+import PIL
+from PIL import Image
+
+image = Image.open("P:/Applications/Apps Project Folders/!2018/ImageUniformityMeasurement (ATSK-20870)/Model 9000/Lighting_Test01_SN111/ZC_Test/BlueOff_35_ZC300.bmp")
+pixels = image.convert("RGB")
+rgbArray = array(pixels.getdata())
+rgb = DataFrame(rgbArray)
+#print(rgb)
+#print(indices(image.size))
+#indicesArray = moveaxis(indices(image.size), 0, 2)
+#print(indicesArray)
+
+
+
+df = pd.DataFrame(np.zeros((307200, 2)))
+
+#df.index =df.index + 1
+#df.columns = df.columns +1
+
+for n in range(0,480):
+        m =1
+        x = (640*n) - 640
+        while m != 640:
+            df.iloc[x,0] = n
+            df.iloc[x,1] = m
+            x = x+1
+            m = m+1
+        df.iloc[(640*n)-1,0] = n
+        df.iloc[(640*n)-1,1] = 640
+df.iloc[306560:307200, 0] = 480
+df = df -1
+df = pd.concat([df,rgb], axis =1)
+df.columns = ['y','x','red','green','blue']
+print(df)
+#allArray = np.hstack((df, rgbArray))
+#df = DataFrame(allArray, columns=["y", "x", "red","green","blue"])
+img = pd.DataFrame(np.zeros((480, 640)))
+#print(df)
+
+for n in range(len(df)):
+     #img.loc[n,'1'] = df.loc[n,'red']
+    img.loc[df.loc[n,'y'],df.loc[n,'x']] = df.loc[n,'red']
+
+print(img)
+   
+hm = sns.heatmap(img)
+figure = hm.get_figure()   
+#figure.savefig('P:/Applications/Apps Project Folders/!2018/ImageUniformityMeasurement (ATSK-20870)/Model 6500/LUC_SN22/CameraCapture/Ceramic/100_6500-22_Ceramic_2019_02_12.png', dpi=400)
+   
+   
+#df.index =df.index + 1
+#df.x = df.x +1
+#df.y = df.y +1
+
+#fig = plt.figure(1)
+#ax = Axes3D(fig)
+#ax.plot_trisurf(df.iloc[:,0], df.iloc[:,1], df.iloc[:,2], cmap = cm.coolwarm)
+#ax.set_xlabel('Height Pixels')
+#ax.set_ylabel('Width Pixels')
+#ax.set_zlabel('Pixel Value')
+#ax.view_init(elev = 30, azim = 60)
+#plt.savefig('P:/Applications/Apps Project Folders/!2018/ImageUniformityMeasurement (ATSK-20870)/Model 9000/Lighting_Test01_SN111/ZC_Test/BlueOff_35_ZC300.png', header = None)
+#plt.show()
+
+
+
+
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+import itertools as it
+import numpy as np
+from mpl_toolkits.mplot3d import Axes3D
+from matplotlib import cm
+
+
+#data = pd.read_csv('P:/Applications/Apps Project Folders/!2018/ImageUniformityMeasurement (ATSK-20870)/Model 9000/Lighting_Test01_SN111/Off_Axis/Red/SN111_RedOff_70.csv', header = None)
+
+#hm = sns.heatmap(data, center = 12000000)
+#figure = hm.get_figure()   
+#figure.savefig('P:/Applications/Apps Project Folders/!2018/ImageUniformityMeasurement (ATSK-20870)/Model 9000/Lighting_Test01_SN111/Off_Axis/Red/SN111_RedOff_100.png', dpi=400)
+#data = pd.read_csv('P:/Applications/Apps Project Folders/!2018/ImageUniformityMeasurement (ATSK-20870)/Model 6500/LUC_SN22/CameraCapture/Ceramic/100_6500-22_Ceramic_2019_02_12.csv', header = None)
+
+#hm = sns.heatmap(data)
+#figure = hm.get_figure()   
+#figure.savefig('P:/Applications/Apps Project Folders/!2018/ImageUniformityMeasurement (ATSK-20870)/Model 6500/LUC_SN22/CameraCapture/Ceramic/100_6500-22_Ceramic_2019_02_12.png', dpi=400)
+#data = pd.read_csv('P:/Applications/Apps Project Folders/!2018/ImageUniformityMeasurement (ATSK-20870)/Model 6500/LUC_SN22/CameraCapture/Customer Laser/80_6500-22_Customer Laser_2019_02_12.csv', header = None)
+#x = (data.max(axis=1)).max(axis=0)
+#print(x)
+#y = (data.min(axis=1)).min(axis=0)
+#print(y)
+#z = x - y
+#print(z)
+#hm = sns.heatmap(data, center = 7000000)
+#figure = hm.get_figure()   
+#figure.savefig('P:/Applications/Apps Project Folders/!2018/ImageUniformityMeasurement (ATSK-20870)/Model 6500/LUC_SN22/CameraCapture/Customer Laser/80_6500-22_Customer Laser_2019_02_12.png', dpi=400)
+#s = (data.std(axis=1)).std(axis=0)
+#print(s)
+#data = pd.read_csv('P:/Applications/Apps Project Folders/!2018/ImageUniformityMeasurement (ATSK-20870)/Model 6500/LUC_SN22/CameraCapture/Customer Laser/80_6500-22_Customer Laser_2019_02_12.csv', header = None)
+#c = sorted(it.chain(*data.values))
+#print(c)
+#plt.hist(c, bins=100)
+#plt.ylabel('# of pixels')
+#plt.savefig('P:/Applications/Apps Project Folders/!2018/ImageUniformityMeasurement (ATSK-20870)/Model 9000/Lighting_Test01_SN111/Off_Axis/Blue/SN111_BlueOff_100_Hist.jpg')          
+#plt.savefig('P:/Applications/Apps Project Folders/!2018/ImageUniformityMeasurement (ATSK-20870)/Model 6500/LUC_SN22/CameraCapture/Ceramic/100_6500-22_Ceramic_2019_02_12_Hist.jpg')
+#plt.savefig('P:/Applications/Apps Project Folders/!2018/ImageUniformityMeasurement (ATSK-20870)/Model 6500/LUC_SN22/CameraCapture/Customer Laser/80_6500-22_Customer Laser_2019_02_12_Hist.jpg')
+#plt.show
+data = pd.read_csv('P:/Applications/Apps Project Folders/!2018/ImageUniformityMeasurement (ATSK-20870)/Model 9000/Lighting_Test01_SN111/Off_Axis/Blue/SN111_BlueOff_100.csv', header = None)
+data.index = data.index +1
+data.columns = data.columns + 1
+#data.index = np.arange(1, len(data) + 1)
+#print(data.iloc[:,0])
+df = pd.DataFrame(np.zeros((307200, 3)))
+#df = pd.DataFrame()
+df.index =df.index + 1
+df.columns = df.columns +1
+#print(df)
+#for n in range(len(data)):
+#        m =1
+#        x = (640*n) - 640
+#        while m != 640:
+#            z = data.iloc[n,m]
+#            df.iloc[x,0] = n
+#            df.iloc[x,1] = m
+#            df.iloc[x,2] = z
+#            x = x+1
+#            m = m+1
+
+for n in range(len(data)):
+        m =1
+        x = (640*n) - 640
+        while m != 640:
+            z = data.iloc[n,m]
+            df.iloc[x,0] = n
+            df.iloc[x,1] = m
+            df.iloc[x,2] = z
+            x = x+1
+            m = m+1
+        z = data.iloc[n, 639]
+        df.iloc[(640*n)-1,0] = n
+        df.iloc[(640*n)-1,1] = 640
+        df.iloc[(640*n)-1,2] = z
+df.iloc[306560:307200, 0] = 480
+#print(df.iloc[306560:307200])      
+#print(len(data))
+fig = plt.figure(1)
+ax = Axes3D(fig)
+ax.plot_trisurf(df.iloc[:,0], df.iloc[:,1], df.iloc[:,2], cmap = cm.coolwarm)
+ax.set_xlabel('Height Pixels')
+ax.set_ylabel('Width Pixels')
+ax.set_zlabel('Pixel Value')
+#plt.savefig('P:/Applications/Apps Project Folders/!2018/ImageUniformityMeasurement (ATSK-20870)/Model 9000/Lighting_Test01_SN111/Off_Axis/Blue/SN111_BlueOff_100_3D.png')
+plt.show()
+
+
+
+
+plt.figure(2)
+plt.plot(df.iloc[:,0],df.iloc[:,2],  color = 'g')
+plt.xlabel('Height Pixel')
+plt.ylabel('Pixel Value')
+#plt.savefig('P:/Applications/Apps Project Folders/!2018/ImageUniformityMeasurement (ATSK-20870)/Model 9000/Lighting_Test01_SN111/Off_Axis/Blue/SN111_BlueOff_100_Height_vs_Z.png')
+
+
+plt.figure(3)
+plt.plot(df.iloc[:,1],df.iloc[:,2], color = 'b')
+plt.xlabel('Width Pixels')
+plt.ylabel('Pixel Value')
+#plt.savefig('P:/Applications/Apps Project Folders/!2018/ImageUniformityMeasurement (ATSK-20870)/Model 9000/Lighting_Test01_SN111/Off_Axis/Blue/SN111_BlueOff_100_Width_vs_Z.png')
+
+plt.show()
+
+
+
+import pandas as pd
+from pandas import DataFrame
+import matplotlib.pyplot as plt
+import seaborn as sns
+import itertools as it
+import numpy as np
+from numpy import array, moveaxis, indices, dstack
+from mpl_toolkits.mplot3d import Axes3D
+from matplotlib import cm
+import PIL
+from PIL import Image
+
+image = Image.open("P:/Applications/Apps Project Folders/!2018/ImageUniformityMeasurement (ATSK-20870)/Model 9000/Lighting_Test01_SN111/ZC_Test/BlueOff_35_ZC300.bmp")
+pixels = image.convert("RGB")
+rgbArray = array(pixels.getdata()).reshape(image.size + (3,))
+print(rgbArray)
+indicesArray = moveaxis(indices(image.size), 0, 2)
+allArray = dstack((indicesArray, rgbArray)).reshape((-1, 5))
+
+df = DataFrame(allArray, columns=["x", "y", "red","green","blue"])
+df.index =df.index + 1
+df.x = df.x +1
+df.y = df.y +1
+
+fig = plt.figure(1)
+ax = Axes3D(fig)
+ax.plot_trisurf(df.iloc[:,0], df.iloc[:,1], df.iloc[:,2], cmap = cm.coolwarm)
+ax.set_xlabel('Height Pixels')
+ax.set_ylabel('Width Pixels')
+ax.set_zlabel('Pixel Value')
+ax.view_init(elev = 30, azim = 60)
+#plt.savefig('P:/Applications/Apps Project Folders/!2018/ImageUniformityMeasurement (ATSK-20870)/Model 9000/Lighting_Test01_SN111/ZC_Test/BlueOff_35_ZC300.png', header = None)
+plt.show()
